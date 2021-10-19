@@ -27,7 +27,7 @@ export async function getOrCreateTransformation(shopName, suffix) {
     if (transformationData) return transformationData.id;
 
     // Otherwise, create
-    const description = 'This is description of a clean transformation';
+    const description = 'This is description';
 
     const postUrl = 'https://connection.eu-central-1.keboola.com/v2/storage/components/keboola.snowflake-transformation/configs';
     const postMethod = 'POST';
@@ -53,7 +53,7 @@ export async function getOrCreateTransformation(shopName, suffix) {
     return JSON.parse(postBody).id;
 }
 
-export async function updateTransformation(shopId, inputSource, outputDestination, code) {
+export async function updateTransformation(shopId, blockName, codeName, code, inputSource, outputDestination) {
     // TODO: nicer format of long line
     const url = `https://connection.eu-central-1.keboola.com/v2/storage/components/keboola.snowflake-transformation/configs/${shopId}`;
 
@@ -63,10 +63,10 @@ export async function updateTransformation(shopId, inputSource, outputDestinatio
             parameters: {
                 blocks: [
                     {
-                        name: 'righto',
+                        name: blockName,
                         codes: [
                             {
-                                name: 'cleaner',
+                                name: codeName,
                                 script: [code],
                             },
                         ],

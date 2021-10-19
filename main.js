@@ -4,7 +4,7 @@ import { config } from 'dotenv';
 import * as lib from './lib.js';
 config();
 
-const shopName = 'aaa';
+const shopName = 'martina_test';
 
 Apify.main(async () => {
     console.log(process.env.KEBOOLA_TOKEN);
@@ -15,20 +15,27 @@ Apify.main(async () => {
 
     await lib.updateTransformation(
         id1,
+        'Unified',
+        'Shop unified',
+        fs.readFileSync('./01_unification.sql', 'utf-8'),
         `in.c-black-friday.${shopName}`,
         `out.c-0-${shopName}.${shopName}_unified`,
-        fs.readFileSync('./01_unification.sql', 'utf-8'),
     );
     await lib.updateTransformation(
         id2,
+        'Unified',
+        'Shop unified',
+        fs.readFileSync('./01_unification.sql', 'utf-8'),
         `out.c-0-${shopName}.${shopName}_unified`,
         `out.c-0-${shopName}.${shopName}_enriched`,
-        `TODO`,
     );
     await lib.updateTransformation(
         id3,
+        'Unified',
+        'Shop unified',
+        fs.readFileSync('./01_unification.sql', 'utf-8'),
         `out.c-0-${shopName}.${shopName}_enriched`,
         `out.c-0-${shopName}.${shopName}_connected`,
-        `TODO`,
+
     );
 });
