@@ -53,7 +53,7 @@ export async function getOrCreateTransformation(shopName, suffix) {
     return JSON.parse(postBody).id;
 }
 
-export async function updateTransformation(shopId, blockName, codeName, code, inputSource, outputDestination) {
+export async function updateTransformation(shopId, blockName, codeName, code, inputSource, inputName, outputDestination, outputName) {
     // TODO: nicer format of long line
     const url = `https://connection.eu-central-1.keboola.com/v2/storage/components/keboola.snowflake-transformation/configs/${shopId}`;
 
@@ -78,7 +78,7 @@ export async function updateTransformation(shopId, blockName, codeName, code, in
                     tables: [
                         {
                             source: inputSource,
-                            destination: 'shop_all',
+                            destination: inputName,
                         },
                     ],
                 },
@@ -86,7 +86,7 @@ export async function updateTransformation(shopId, blockName, codeName, code, in
                     tables: [
                         {
                             destination: outputDestination,
-                            source: 'finally',
+                            source: outputName,
                             primary_key: ['p_key'],
                         },
                     ],

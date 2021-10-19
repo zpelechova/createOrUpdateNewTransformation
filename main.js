@@ -4,7 +4,7 @@ import { config } from 'dotenv';
 import * as lib from './lib.js';
 config();
 
-const shopName = 'martina_test';
+const shopName = 'mall_cz';
 
 Apify.main(async () => {
     console.log(process.env.KEBOOLA_TOKEN);
@@ -15,27 +15,32 @@ Apify.main(async () => {
 
     await lib.updateTransformation(
         id1,
-        'Unified',
+        'Unified_block',
         'Shop unified',
         fs.readFileSync('./01_unification.sql', 'utf-8'),
         `in.c-black-friday.${shopName}`,
+        'shop_raw',
         `out.c-0-${shopName}.${shopName}_unified`,
+        'shop_unified',
     );
     await lib.updateTransformation(
         id2,
-        'Unified',
-        'Shop unified',
+        'RefPrices_block',
+        'RefPrices',
         fs.readFileSync('./01_unification.sql', 'utf-8'),
         `out.c-0-${shopName}.${shopName}_unified`,
-        `out.c-0-${shopName}.${shopName}_enriched`,
+        'shop_unified',
+        `out.c-0-${shopName}.${shopName}_refprices`,
+        'shop_refprices',
     );
     await lib.updateTransformation(
         id3,
-        'Unified',
-        'Shop unified',
+        'Complete_block',
+        'Complete',
         fs.readFileSync('./01_unification.sql', 'utf-8'),
-        `out.c-0-${shopName}.${shopName}_enriched`,
-        `out.c-0-${shopName}.${shopName}_connected`,
-
+        `out.c-0-${shopName}.${shopName}_refprices`,
+        'shop_refprices',
+        `out.c-0-${shopName}.${shopName}_complete`,
+        'shop_complete'
     );
 });
