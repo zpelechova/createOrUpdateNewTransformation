@@ -4,8 +4,8 @@ import { config } from 'dotenv';
 import * as lib from './lib.js';
 config();
 
-const shopName = 'mall_cz';
-
+const shopName = 'aaa';
+ 
 Apify.main(async () => {
     console.log(process.env.KEBOOLA_TOKEN);
 
@@ -18,8 +18,8 @@ Apify.main(async () => {
         'Unified_block',
         'Shop unified',
         fs.readFileSync('./01_unification.sql', 'utf-8'),
-        `in.c-black-friday.${shopName}`,
-        'shop_raw',
+        [`in.c-black-friday.${shopName}`],
+        ['shop_raw','shop_neraw'],
         `out.c-0-${shopName}.${shopName}_unified`,
         'shop_unified',
     );

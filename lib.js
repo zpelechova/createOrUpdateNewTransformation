@@ -57,6 +57,20 @@ export async function updateTransformation(shopId, blockName, codeName, code, in
     // TODO: nicer format of long line
     const url = `https://connection.eu-central-1.keboola.com/v2/storage/components/keboola.snowflake-transformation/configs/${shopId}`;
 
+    const tables = [];
+    if (inputSource.length === inputName.length) {
+        for (const i in inputSource) {
+            const table = {
+                source: inputSource[i],
+                destination: inputName[i],
+            };
+            tables.push(table);
+        }
+    } else {
+        console.log("The input tables are not blbblblb")
+        return "READ THE ERROR MESSAGE"
+    }
+
     const method = 'PUT';
     const formData = {
         configuration: JSON.stringify({
@@ -75,12 +89,7 @@ export async function updateTransformation(shopId, blockName, codeName, code, in
             },
             storage: {
                 input: {
-                    tables: [
-                        {
-                            source: inputSource,
-                            destination: inputName,
-                        },
-                    ],
+                    tables: tables,
                 },
                 output: {
                     tables: [
