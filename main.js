@@ -4,11 +4,14 @@ import { config } from 'dotenv';
 import * as lib from './lib.js';
 config();
 
-const shopName = 'martia';
+const shopNames = ['martia1', 'martia2'];
  
 Apify.main(async () => {
-    console.log(process.env.KEBOOLA_TOKEN);
 
+  console.log(process.env.KEBOOLA_TOKEN);
+
+  for (const shopName of shopNames) {
+  
     const id1 = await lib.getOrCreateTransformation(shopName, '_01_unification');
     const id2 = await lib.getOrCreateTransformation(shopName, '_02_refprices');
     const id3 = await lib.getOrCreateTransformation(shopName, '_03_complete');
@@ -84,4 +87,5 @@ Apify.main(async () => {
       'Shop pricehistory',
       fs.readFileSync('./04_pricehistory.sql', 'utf-8'),
     );
+  };
 });

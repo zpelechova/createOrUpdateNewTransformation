@@ -9,13 +9,13 @@ SELECT *
 --creates two md5 hashes - p_key is unique for item and consists of shop and itemId, pk is unique for item a date and is made from p_key, - , date
 CREATE TABLE "shop_unified"
 AS
-SELECT DISTINCT 'dm_cz' AS "shop"
+SELECT DISTINCT "shop" AS "shop"
 	,md5("shop" || "itemId") AS "p_key"
   , "shop" || '_' ||"itemId" AS "shop_itemId"
 	,"itemId" AS "itemId"
 	,"itemName" AS "itemName"
 	,"itemUrl" AS "itemUrl"
-  , iff("slug" <> '', "slug", REGEXP_SUBSTR(PARSE_URL("itemUrl"):path, '([^\/]+)\\.html$', 1, 1, 'c', 1)) AS "slug"
+  , "slug" AS "slug"
 	, min(try_to_number("currentPrice", 16, 2)) OVER (
 				PARTITION BY "itemId"
 				, "date"
@@ -28,6 +28,7 @@ SELECT DISTINCT 'dm_cz' AS "shop"
 	,"img" AS "itemImage"
 	,to_date("date") AS "date"
   ,"inStock"
+  , 0 as "blackFriday"
 FROM "shop"
 WHERE "currentPrice" <> ''
 AND "date" <> ''
